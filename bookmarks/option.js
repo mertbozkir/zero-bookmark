@@ -192,38 +192,9 @@ class ReflectSettings extends DefaultSettings {
     }
 }
 
-class ExtensionInfo {
-    constructor() {
-        this.versionInfo()
-        this.wrapper('https://api.github.com/repos/Y-Ysss/Hello-NewTab/releases/latest', this.gitReleaseInfo)
-    }
-    wrapper(url, func) {
-        fetch(url).then((response) => response.json()).then((data) => {
-            func(data)
-        })
-    }
 
-    versionInfo() {
-        const manifestData = chrome.runtime.getManifest();
-        let str = `<div class="content-section"><div class="section-title">Installed Extension</div><div class="section-items-slim"><div class="section-item-text">バージョン : ${manifestData.version}</div></div></div>`
-        document.getElementById('ExtensionInfo').insertAdjacentHTML('beforeend', str);
-    }
-
-    gitReleaseInfo(data) {
-        const manifestData = chrome.runtime.getManifest();
-        let str
-        if(data.message !== undefined) { return }
-        if(manifestData.version !== data.name) {
-            const body = data.body.replace(/#{1,6}(.+?)\r?\n/g, '<span>$1</span><br>')
-            str = `<div class="content-section"><div class="section-title">Latest Release</div><div class="section-items-slim"><div class="section-item-text">バージョン : ${data.name}</div></div><div class="section-items-slim"><div class="section-item-text"><b>What's New</b><br>${body}</div></div><div class="section-items-slim"><div class="section-item-text">URL : <a class="url-text" href="${data.html_url}" target="_blank"></a></div></div></div>`
-            str = str.replace(/\r?\n/g, '<br>')
-            document.getElementById('ExtensionInfo').insertAdjacentHTML('beforeend', str);
-        }
-    }
-}
 
 const opt = new ReflectSettings()
-const info = new ExtensionInfo()
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if(request.option === 'reload') {

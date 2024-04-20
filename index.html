@@ -10,7 +10,6 @@
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Catamaran'>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css'>
     <link rel="stylesheet" href="./index.css">
-
 </head>
 
 <body>
@@ -18,33 +17,17 @@
     <div class="bookmark-search-header">Search</div>
     <div class="bookmark-search-input-area">
       <input id="search" type="text" placeholder="Search" required>
-      <button id="searchView" title="Search Results Reload"></button>
-      <span id="searchReset">×</span>
+      <button id="searchView" title="Search Results Reload">🍳</button>
     </div>
     <div id="bookmark-search-result"></div>
   </div>
 
 
-      <div class="menu crate-system-tab" data-href="chrome://bookmarks/"><img class="menu-icon" src="assets/icon-bookmarks.svg">Bookmarks</div>
-      <div class="menu crate-system-tab" data-href="chrome://settings/"><img class="menu-icon" src="assets/icon-settings.svg">Settings</div>
-      <div class="menu crate-system-tab" data-href="option.html"><img class="menu-icon" src="assets/icon-options.svg">Options</div>
-      
-      <div id="selectThemeMenu" class="menu action-item">
-        <img class="menu-icon" src="assets/icon-theme.svg">Switch Theme
-        
-      </div>
-      
-      
+  <div id="bookmark-list"></div>
 
-
-
-        
-    </div>
-    <script type="text/javascript" src="bookmarks/bookmark.js"></script>
-    <script type="text/javascript" src="bookmarks/browser.js"></script>
-    <script type="text/javascript" src="bookmarks/common.js"></script>
-
-  </body>
-<script src="./src/bookmarks/main.js"></script>
+  <script src="browser.js"></script>
+  <script src="common.js"></script>
+  <script src="bookmark.js"></script>
+</body>
 
 </html>
