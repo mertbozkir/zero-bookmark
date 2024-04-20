@@ -1,6 +1,6 @@
 
-import { DefaultSettings } from './bookmarks/defaultSettings.js';
-import { getBookmarksTree, getStorage } from './bookmarks/browser.js';
+import { DefaultSettings } from './js/defaultSettings.js';
+import { getBookmarksTree, getStorage } from './js/browser.js';
 
 class ContentsController extends DefaultSettings {
     constructor() {
