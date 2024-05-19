@@ -3,7 +3,7 @@
 zero-bookmark is a Chrome extension that allows users to quickly access and manage their bookmarks from the new tab page. It provides a streamlined interface for searching, viewing, and organizing bookmarks, with customizable themes and layouts.
 
 
-<img width="552" alt="image" src="assets/screenshot.png">
+<img alt="screenshot" src="assets/screenshot.png">
 </p>
 
 ## Prerequisites
