@@ -1,8 +1,15 @@
-function googleSearch() {
-    var searchTerm = document.getElementById("bookmark-search").value;
-        if (searchTerm.trim() !== "") {
-            var googleSearchUrl = "https://www.google.com/search?q=" + encodeURIComponent(searchTerm);
-            window.open(googleSearchUrl, "_blank");
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('google-search-button').addEventListener('click', function() {
+        var query = document.getElementById('bookmark-search').value;
+        if (query) {
+            var googleUrl = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+            chrome.tabs.create({ url: googleUrl });
+        } else {
+            alert('Please enter a search term.');
         }
-}
+    });
 
+    document.getElementById('bookmark-search-reset').addEventListener('click', function() {
+        document.getElementById('bookmark-search').value = '';
+    });
+});

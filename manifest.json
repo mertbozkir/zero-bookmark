@@ -7,7 +7,8 @@
       "bookmarks",
       "storage",
       "alarms",
-      "favicon"
+      "favicon",
+      "activeTab"
   ],
   "incognito": "split",
   "background": {
@@ -21,5 +22,8 @@
   "content_security_policy": {
       "extension_pages": "script-src 'self'; object-src 'self'"
   },
-  "options_page": "option.html"
+  "options_page": "option.html",
+  "action": {
+    "default_popup": "index.html"
+  }
 }
