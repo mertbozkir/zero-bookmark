@@ -6,12 +6,12 @@ html {
 }
 body {
   font-family: Catamaran;
-  background: #f5eded;
+  background: #212121;
   min-height: 100vh;
   min-width: 100vw;
   height: 100%;
   width: 100%;
-  text-align: center;
+  /* text-align: center; */
   padding: 10px;
   box-sizing: border-box;
   --font-color: #666;
@@ -81,4 +81,29 @@ five-habit-tracker {
 }
 #about .mySocial a i.fa-medium {
   color: black;
+}
+#bookmark-search-reset img,
+#youtube-search-button img,
+#google-search-button img {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+#bookmark-search,
+#bookmark-search-reset {
+  width: auto;
+  height: 20px;
+  vertical-align: middle;
+}
+.bookmark-search-result-items {
+  font-size: 16px;
+}
+#bookmark-search-input-area {
+  border: 2px solid black;
+  padding: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  display: inline-block;
+  border-radius: 10px;
+  background-color: #666;
 }

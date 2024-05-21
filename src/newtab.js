@@ -165,12 +165,12 @@ class BookmarkSearch {
                         if(item.url) {
                             const parent = await getBookmarkItems(item.parentId)
                             const title = item.title == "" ? item.url : item.title
-                            joinResult += `<a class="bookmark-search-result-items" href="${item.url}" title="${title}"><img class="favicon" src="${getFaviconUrl(item.url)}">${title}<span>${parent[0].title}</span></a>`
+                            joinResult += `<a class="bookmark-search-result-items" href="${item.url}" title="${title}"><button><img class="favicon" src="${getFaviconUrl(item.url)}">${title}</button></a><br>`
                         }
                     }
                     joinResult = `<div id="bookmark-result-count">${results.length} ${results.length === 1 ? 'bookmark' : 'bookmarks'}</div>${joinResult}`
                 } else {
-                    joinResult = '<div id="bookmark-no-results-found"><img src="img/no-results-found.svg"><p>No results found</p></div>'
+                    joinResult = '<div id="bookmark-no-results-found"><img src="assets/not_found.jpg"><p>No results found</p></div>'
                 }
                 document.getElementById('bookmark-search-result').innerHTML = joinResult
             })
