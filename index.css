@@ -107,3 +107,27 @@ five-habit-tracker {
   border-radius: 10px;
   background-color: #666;
 }
+
+.bookmark {
+  display: flex;
+  align-items: center; 
+  margin-bottom: 10px; 
+}
+
+.remove-bookmark {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.bookmark-self {
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.favicon {
+  height: 20px;
+  width: 20px;
+  margin-right: 5px;
+}

@@ -125,65 +125,79 @@ class ExpandMenu {
 class BookmarkSearch {
     constructor() {
         wrapper('#bookmark-search', 'keyup', (event) => {
-            this.searchView()
-        })
+            this.searchView();
+        });
         wrapper('#bookmark-search-reset', 'click', (event) => {
-            this.searchReset()
-        })
+            this.searchReset();
+        });
+        this.state = false;
     }
+
     on(state = this.state) {
-        const bookmarkSearch = document.getElementById('bookmark-search-group')
-        const searchMenu = document.getElementById('search-menu')
-        const search = document.getElementById('bookmark-search')
-        if(state) {
-            bookmarkSearch.style.left = '-34rem'
-            searchMenu.classList.remove('active-menu')
-            search.blur()
-            this.searchReset()
+        const bookmarkSearch = document.getElementById('bookmark-search-group');
+        const searchMenu = document.getElementById('search-menu');
+        const search = document.getElementById('bookmark-search');
+        if (state) {
+            bookmarkSearch.style.left = '-34rem';
+            searchMenu.classList.remove('active-menu');
+            search.blur();
+            this.searchReset();
         } else {
-            bookmarkSearch.style.left = '2.6rem'
-            searchMenu.classList.add('active-menu')
-            search.focus()
+            bookmarkSearch.style.left = '2.6rem';
+            searchMenu.classList.add('active-menu');
+            search.focus();
         }
-        this.state = !state
+        this.state = !state;
     }
+
     searchReset() {
-        document.getElementById('bookmark-search').value = ""
-        document.getElementById('bookmark-search-reset').classList.remove('search-reset-visible')
-        document.getElementById('bookmark-search-result').innerHTML = ''
+        document.getElementById('bookmark-search').value = "";
+        document.getElementById('bookmark-search-reset').classList.remove('search-reset-visible');
+        document.getElementById('bookmark-search-result').innerHTML = '';
     }
+
     searchView() {
-        const words = document.getElementById('bookmark-search').value
-        if(words == "") {
-            document.getElementById('bookmark-search-reset').classList.remove('search-reset-visible')
+        const words = document.getElementById('bookmark-search').value;
+        if (words == "") {
+            document.getElementById('bookmark-search-reset').classList.remove('search-reset-visible');
         } else {
-            document.getElementById('bookmark-search-reset').classList.add('search-reset-visible')
-            chrome.bookmarks.search(words, async(results) => {
-                let joinResult = ''
-                if(results.length !== 0) {
-                    for(const item of results) {
-                        if(item.url) {
-                            const parent = await getBookmarkItems(item.parentId)
-                            const title = item.title == "" ? item.url : item.title
-                        joinResult += `<button id="remove-bookmark" data-bookmark-id="${item.id}">X</button><a class="bookmark-search-result-items" href="${item.url}" title="${title}"><button><img class="favicon" src="${getFaviconUrl(item.url)}">${title}</button></a><br>`
+            document.getElementById('bookmark-search-reset').classList.add('search-reset-visible');
+            chrome.bookmarks.search(words, async (results) => {
+                let joinResult = '';
+                if (results.length !== 0) {
+                    for (const item of results) {
+                        if (item.url) {
+                            const parent = await getBookmarkItems(item.parentId);
+                            const title = item.title == "" ? item.url : item.title;
+                            joinResult += `<div class="bookmark" data-bookmark-id="${item.id}">
+                                               <button class="remove-bookmark" data-bookmark-id="${item.id}">X</button>
+                                               <a class="bookmark-search-result-items" href="${item.url}" title="${title}">
+                                                   <button class="bookmark-self">
+                                                       <img class="favicon" src="${getFaviconUrl(item.url)}">${title}
+                                                   </button>
+                                               </a>
+                                           </div><br>`;
                         }
                     }
-                    joinResult = `<div id="bookmark-result-count">${results.length} ${results.length === 1 ? 'bookmark' : 'bookmarks'}</div>${joinResult}`
+                    joinResult = `<div id="bookmark-result-count">${results.length} ${results.length === 1 ? 'bookmark' : 'bookmarks'}</div>${joinResult}`;
                 } else {
-                    joinResult = '<div id="bookmark-no-results-found"><img src="assets/not_found.jpg"><p>No results found</p></div>'
+                    joinResult = '<div id="bookmark-no-results-found"><img src="assets/not_found.jpg"><p>No results found</p></div>';
                 }
-                document.getElementById('bookmark-search-result').innerHTML = joinResult
-                document.querySelectorAll('#remove-bookmark').forEach(button => {
+                document.getElementById('bookmark-search-result').innerHTML = joinResult;
+                document.querySelectorAll('.remove-bookmark').forEach(button => {
                     button.addEventListener('click', function() {
                         const bookmarkId = this.getAttribute('data-bookmark-id');
-                        chrome.bookmarks.remove(bookmarkId, function() {
-                            searchView();
+                        chrome.bookmarks.remove(bookmarkId, () => {
+                            const bookmarkElement = document.querySelector(`div[data-bookmark-id="${bookmarkId}"]`);
+                            if (bookmarkElement) {
+                                bookmarkElement.remove();
+                            }
                         });
                     });
                 });
-            })
+            });
         }
-        document.getElementById('bookmark-search-result').innerHTML = ''
+        document.getElementById('bookmark-search-result').innerHTML = '';
     }
 }
 
