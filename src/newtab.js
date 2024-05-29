@@ -165,7 +165,7 @@ class BookmarkSearch {
                         if(item.url) {
                             const parent = await getBookmarkItems(item.parentId)
                             const title = item.title == "" ? item.url : item.title
-                            joinResult += `<a class="bookmark-search-result-items" href="${item.url}" title="${title}"><button><img class="favicon" src="${getFaviconUrl(item.url)}">${title}</button></a><br>`
+                        joinResult += `<button id="remove-bookmark" data-bookmark-id="${item.id}">X</button><a class="bookmark-search-result-items" href="${item.url}" title="${title}"><button><img class="favicon" src="${getFaviconUrl(item.url)}">${title}</button></a><br>`
                         }
                     }
                     joinResult = `<div id="bookmark-result-count">${results.length} ${results.length === 1 ? 'bookmark' : 'bookmarks'}</div>${joinResult}`
@@ -173,6 +173,14 @@ class BookmarkSearch {
                     joinResult = '<div id="bookmark-no-results-found"><img src="assets/not_found.jpg"><p>No results found</p></div>'
                 }
                 document.getElementById('bookmark-search-result').innerHTML = joinResult
+                document.querySelectorAll('#remove-bookmark').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const bookmarkId = this.getAttribute('data-bookmark-id');
+                        chrome.bookmarks.remove(bookmarkId, function() {
+                            searchView();
+                        });
+                    });
+                });
             })
         }
         document.getElementById('bookmark-search-result').innerHTML = ''
