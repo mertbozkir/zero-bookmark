@@ -169,14 +169,15 @@ class BookmarkSearch {
                         if (item.url) {
                             const parent = await getBookmarkItems(item.parentId);
                             const title = item.title == "" ? item.url : item.title;
-                            joinResult += `<div class="bookmark" data-bookmark-id="${item.id}">
+                            joinResult += `<div class="bookmark-card" data-bookmark-id="${item.id}">
                                                <button class="remove-bookmark" data-bookmark-id="${item.id}">X</button>
                                                <a class="bookmark-search-result-items" href="${item.url}" title="${title}">
-                                                   <button class="bookmark-self">
-                                                       <img class="favicon" src="${getFaviconUrl(item.url)}">${title}
-                                                   </button>
+                                                   <div class="bookmark-card-content">
+                                                       <img class="favicon" src="${getFaviconUrl(item.url)}">
+                                                       <span class="bookmark-title">${title}</span>
+                                                   </div>
                                                </a>
-                                           </div><br>`;
+                                           </div>`;
                         }
                     }
                     joinResult = `<div id="bookmark-result-count">${results.length} ${results.length === 1 ? 'bookmark' : 'bookmarks'}</div>${joinResult}`;
@@ -198,7 +199,7 @@ class BookmarkSearch {
             });
         }
         document.getElementById('bookmark-search-result').innerHTML = '';
-    }
+    }    
 }
 
 class FloatMenu {

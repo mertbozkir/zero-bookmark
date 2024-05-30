@@ -38,16 +38,21 @@
  
 
     <div id="bookmark-search-group">
-        <div id="bookmark-search-header">Search</div>
         <div id="bookmark-search-input-area">
             <input id="bookmark-search" type="text" placeholder="Search bookmarks" required>
-            <span id="bookmark-search-reset" class="bookmark-search-input-clear"><button><img src="assets/clear.png"></button></span>
+            <button id="bookmark-search-reset"><img src="assets/clear.png"></button>
             <button id="google-search-button"><img src="assets/google_logo.jpg"></button>
-            <button id="youtube-search-button"><img src="assets/youtube_logo.jpg"></button>
+            <button id="youtube-search-button"><img src="assets/youtube_logo.png"></button>
+        </div>
+        <div id="theme-selector">
+            <label for="theme">Select Theme:</label>
+            <select id="theme">
+                <option value="dark">Dark Mode</option>
+                <option value="light">Light Mode</option>
+            </select>
         </div>
         <div id="bookmark-search-result"></div>
     </div>
-    
 
 <!-- <div id="overray"></div> -->
 <!--<div id="system-link-area">
@@ -67,5 +72,6 @@
 <script type="text/javascript" src="srrc/macy.js"></script>
 <script type="module" src="src/newtab.js"></script>
 <script type="text/javascript" src="src/searchbuttons.js"></script>
+<script type="text/javascript" src="src/theme.js"></script>
 
 </body>
