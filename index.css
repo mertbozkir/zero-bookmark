@@ -228,3 +228,10 @@ five-habit-tracker {
   border: none;
   outline: none;
 }
+
+#zb-logo img{
+  position: fixed;
+  top: 10px; /* sol üst köşe */
+  left: 10px;
+  height: 56px;
+}

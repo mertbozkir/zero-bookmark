@@ -158,7 +158,7 @@ class ReflectSettings extends DefaultSettings {
                 errorMsg.innerText = ''
                 saveBtn.disabled = false
             } catch (error) {
-                errorMsg.innerText = '正規表現が正しくありません'
+                errorMsg.innerText = 'Invalid'
                 saveBtn.disabled = true
             }
             this.regenerate = true
