@@ -213,6 +213,19 @@ five-habit-tracker {
   cursor: pointer;
 }
 
+.bookmark-summary {
+  font-size: 12px;
+  color: #ffffff;
+  margin-top: 5px;
+  text-align: left;
+  word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; 
+  -webkit-box-orient: vertical;
+}
+
 #bookmark-result-count {
   grid-column: span 4;
   font-size: 16px;

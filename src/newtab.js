@@ -1,13 +1,35 @@
-
 import { DefaultSettings } from './defaultSettings.js';
 import { getStorage, getBookmarkItems } from './browser.js';
 import { wrapper } from './wrapper.js';
 
+const API_KEY = 'OPEN-AI KEYi yazınız'; //buraya key yazılacak
+
 const getFaviconUrl = (url, size = 16) => {
     const faviconUrl = new URL(chrome.runtime.getURL('/_favicon/'));
-    faviconUrl.searchParams.set('pageUrl', url); // this encodes the URL as well
+    faviconUrl.searchParams.set('pageUrl', url);
     faviconUrl.searchParams.set('size', String(size));
     return faviconUrl.toString();
+}
+
+const getSummary = async (url) => {
+    try {
+        const response = await fetch('https://api.openai.com/v1/engines/davinci-codex/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${API_KEY}`
+            },
+            body: JSON.stringify({
+                prompt: `Please summarize the following URL content: ${url}`,
+                max_tokens: 150
+            })
+        });
+        const data = await response.json();
+        return data.choices[0].text.trim() || "Özet bulunamadı";
+    } catch (error) {
+        console.error('Error fetching summary:', error);
+        return "Özet alınamadı";
+    }
 }
 
 class BookmarkContents {
@@ -16,11 +38,12 @@ class BookmarkContents {
         this.fragment = document.createDocumentFragment()
     }
     async append() {
-        await this.generateContents()
-        this.applyMacy()
-        document.getElementById('body-main').appendChild(this.fragment)
-        this.fragment = null
+        await this.generateContents(); 
+        await this.applyMacy(); 
+        document.getElementById('body-main').appendChild(this.fragment); 
+        this.fragment = null;
     }
+    
     async reload() {
         document.getElementById('body-main').innerHTML = null
         await this.append()
@@ -28,10 +51,10 @@ class BookmarkContents {
     async generateContents() {
         const data = await getStorage('jsonBookmarks')
         for(let i in data.jsonBookmarks) {
-            this.generate(data.jsonBookmarks[i].title, true, data.jsonBookmarks[i].children)
+            await this.generate(data.jsonBookmarks[i].title, true, data.jsonBookmarks[i].children)
         }
     }
-    generate(folderName, visible, items) {
+    async generate(folderName, visible, items) {
         const contentModule = document.createElement('div')
         contentModule.className = 'content-module'
         const header = document.createElement('div')
@@ -46,8 +69,8 @@ class BookmarkContents {
         let aBase = document.createElement('a')
         let imgBase = document.createElement('img')
         imgBase.className = 'favicon'
-        items.forEach((item) => {
-            if("url" in item) {
+        for (const item of items) {
+            if ("url" in item) {
                 const li = liBase.cloneNode()
                 const a = aBase.cloneNode()
                 const img = imgBase.cloneNode()
@@ -57,9 +80,14 @@ class BookmarkContents {
                 a.appendChild(document.createTextNode(item.title))
                 a.href = item.url
                 li.appendChild(a)
+                const summary = await getSummary(item.url); 
+                const summaryText = document.createElement('p'); 
+                summaryText.className = 'bookmark-summary';
+                summaryText.textContent = summary;
+                li.appendChild(summaryText); 
                 folderFragment.appendChild(li)
             }
-        })
+        }
         const count = folderFragment.childElementCount
         if(count > 0) {
             let span = document.createElement('span')
@@ -71,11 +99,11 @@ class BookmarkContents {
             contentModule.appendChild(ul)
             this.fragment.appendChild(contentModule)
         }
-        items.forEach((item) => {
-            if("children" in item) {
+        for (const item of items) {
+            if ("children" in item) {
                 this.generate(item.title, item.visible, item.children)
             }
-        })
+        }
     }
     applyMacy() {
         let conf = {
@@ -446,4 +474,5 @@ chrome.runtime.onMessage.addListener(async(request, sender, sendResponse) => {
         const data = await getStorage('settings')
         cm.setState(data.settings.radio)
     }
-})
+});
+
